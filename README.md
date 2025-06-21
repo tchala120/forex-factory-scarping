@@ -1,14 +1,23 @@
 # Forex Factory Calendar Scraper
 
-A Playwright-based web scraper for extracting economic calendar data from Forex Factory and exporting it to CSV format.
+A specialized Playwright-based web scraper designed to extract economic calendar data from Forex Factory on a monthly basis and store it as CSV files for analysis and historical data collection.
 
-## Features
+## Purpose
 
-- **Automated Web Scraping**: Uses Playwright to scrape Forex Factory's economic calendar
-- **CSV Export**: Automatically exports scraped data to CSV files
-- **Flexible Filtering**: Filter events by impact level (High/Medium/Low) or currency
-- **Date Range Support**: Scrape data for specific months or current calendar
-- **Robust Error Handling**: Gracefully handles empty calendars and missing data
+This project automates the collection of Forex Factory's economic calendar events, allowing you to:
+
+- **Monthly Data Collection**: Scrape calendar data for specific months to build historical datasets
+- **CSV Storage**: Store all economic events in structured CSV format for easy analysis
+- **Automated Data Extraction**: Remove manual work of copying calendar data from the website
+- **Structured Data Format**: Convert web data into clean, analyzable CSV files with consistent columns
+
+## Key Features
+
+- **Monthly Scraping**: Target specific months (YYYY-MM format) for focused data collection
+- **CSV Export**: Automatically save scraped data to organized CSV files in output/ directory
+- **Complete Event Data**: Extract time, currency, impact level, event name, actual/forecast/previous values
+- **Flexible Filtering**: Filter by impact level (High/Medium/Low) or specific currencies
+- **Reliable Automation**: Built with Playwright for robust web scraping with proper wait handling
 
 ## Installation
 
@@ -26,36 +35,41 @@ npx playwright install
 
 ## Usage
 
-### Basic Scraping
+### Monthly Data Collection
 
-The fixture provides several methods to scrape and save calendar data:
+The primary use case is collecting calendar data for specific months:
 
 ```typescript
 import { test, expect } from './src/fixtures/forex-factory.fixture';
 
-test('scrape current calendar', async ({ forexFactory }) => {
-  // Simple scrape and save
-  const filePath = await forexFactory.scrapeAndSave();
-  console.log(`Data saved to: ${filePath}`);
+test('scrape January 2024 calendar data', async ({ forexFactory }) => {
+  // Scrape specific month and save to CSV
+  const filePath = await forexFactory.scrapeAndSave('2024-01', 'january-2024-calendar.csv');
+  console.log(`January 2024 data saved to: ${filePath}`);
 });
 ```
 
-### Advanced Usage
+### Building Historical Dataset
 
 ```typescript
-test('advanced scraping with filters', async ({ forexFactory }) => {
-  // Navigate to calendar
-  await forexFactory.navigateToCalendar();
+test('collect multiple months of data', async ({ forexFactory }) => {
+  const months = ['2024-01', '2024-02', '2024-03'];
   
-  // Get all events
-  const allEvents = await forexFactory.getCalendarData();
-  
-  // Filter high impact USD events
-  const highImpactEvents = await forexFactory.filterEventsByImpact(allEvents, 'High');
-  const usdEvents = await forexFactory.filterEventsByCurrency(highImpactEvents, ['USD']);
-  
-  // Save filtered data
-  await forexFactory.saveToCSV(usdEvents, 'usd-high-impact.csv');
+  for (const month of months) {
+    // Scrape each month and save to separate CSV files
+    const filePath = await forexFactory.scrapeAndSave(month, `calendar-${month}.csv`);
+    console.log(`${month} data saved to: ${filePath}`);
+  }
+});
+```
+
+### Current Month Collection
+
+```typescript
+test('scrape current month calendar', async ({ forexFactory }) => {
+  // Get current month data
+  const filePath = await forexFactory.scrapeAndSave();
+  console.log(`Current month data saved to: ${filePath}`);
 });
 ```
 
@@ -116,19 +130,32 @@ Date,Time,Currency,Impact,Event,Actual,Forecast,Previous
 "Jan 15","8:30 AM","USD","High","Non-Farm Payrolls","250K","245K","248K"
 ```
 
-## Examples
+## Data Collection Examples
 
-Check `src/tests/forex-factory.spec.ts` for comprehensive examples of:
+The project includes comprehensive test examples in `src/tests/forex-factory.spec.ts`:
 
-- Basic calendar scraping
-- Date-specific scraping
-- Impact level filtering
-- Currency filtering
-- Error handling
+- **Monthly Data Scraping**: Collect calendar data for specific months (2024-01, 2024-02, etc.)
+- **Historical Dataset Building**: Automate collection of multiple months of data
+- **CSV File Organization**: Save data with descriptive filenames like `calendar-2024-01.csv`
+- **Current Month Collection**: Get the most recent calendar data
+- **Data Filtering**: Extract only high-impact events or specific currencies for focused analysis
 
-## Notes
+## CSV Output Structure
 
-- The scraper respects Forex Factory's structure and waits for elements to load
-- All scraped data is properly escaped for CSV format
-- The fixture automatically creates the output directory if it doesn't exist
-- Tests include proper error handling for edge cases 
+Each generated CSV file contains economic calendar events with these columns:
+
+- **Date**: Event date from the calendar
+- **Time**: Scheduled event time
+- **Currency**: Currency code (USD, EUR, GBP, etc.)
+- **Impact**: Event impact level (High, Medium, Low)
+- **Event**: Description of the economic event
+- **Actual**: Actual released value (if available)
+- **Forecast**: Forecasted value (if available)
+- **Previous**: Previous period value (if available)
+
+## Use Cases
+
+- **Economic Analysis**: Build datasets for backtesting trading strategies
+- **Research Projects**: Collect historical economic event data for academic research
+- **Data Archival**: Create local backups of Forex Factory calendar data
+- **Automated Reporting**: Generate monthly economic event summaries 
