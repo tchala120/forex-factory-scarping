@@ -26,4 +26,21 @@ The tool generates CSV files containing structured economic calendar data with a
 
 ---
 
-*Note: This project is currently in development. Technical documentation and usage instructions will be added once the implementation is complete.* 
+*Note: This project is currently in development. Technical documentation and usage instructions will be added once the implementation is complete.*
+
+# Forex Factory Scraping
+
+This project provides tools for scraping data from Forex Factory using Playwright.
+
+## Features
+- Automated calendar data extraction
+- Timezone configuration
+- Epoch timestamp conversion
+- Structured test fixtures
+
+## Draft PR Demo
+This section demonstrates draft PR functionality.
+
+## Development
+
+Use the provided scripts to run tests and scraping operations. 
