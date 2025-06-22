@@ -19,7 +19,7 @@ Related Link(s):
 
 ### 4. Operations impact
 
-> ⭐️ _Don't forget to remove this explanation_ ⭐️\
+> ⭐️ _Don't forget to remove this explanation_ ⭐️
 > ■ = selected, □ = unselected (you can select multiple choices)
 
 - ■ No impact.
