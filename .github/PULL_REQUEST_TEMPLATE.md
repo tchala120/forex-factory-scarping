@@ -1,6 +1,6 @@
 ### 1. Objective
 
-Explain WHY this PR is required.
+Explain why this PR is required.
 
 Related Link(s):
 
@@ -18,9 +18,6 @@ Related Link(s):
 2. Another Step...
 
 ### 4. Operations impact
-
-> ⭐️ _Don't forget to remove this explanation_ ⭐️
-> - [x] = selected, - [ ] = unselected (you can select multiple choices)
 
 - [x] No impact.
 - [ ] This PR introduces new dependencies (added to the package.json).
