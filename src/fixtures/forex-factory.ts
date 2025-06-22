@@ -3,16 +3,23 @@ import type { Page } from '@playwright/test'
 export type Month = 'jan' | 'feb' | 'mar' | 'apr' | 'may' | 'jun' | 'jul' | 'aug' | 'sep' | 'oct' | 'nov' | 'dec'
 
 export class ForexFactory {
-	private readonly baseURL = 'https://www.forexfactory.com/calendar'
-
 	constructor(public readonly page: Page) {}
 
-	async goto(month?: Month, year?: number) {
-		const monthParam = this.computeMonthParam(month, year)
+	async navigateToCalendar() {
+		const month = process.env.MONTH
+		const year = process.env.YEAR
 
-		const url = `${this.baseURL}?month=${monthParam}`
+		const monthParam = this.computeMonthParam(month as Month, year)
 
-		await this.page.goto(url)
+		await this.page.goto(`/calendar?month=${monthParam}`)
+	}
+
+	async changeTimezone() {
+		await this.page.goto(`/timezone`)
+
+		await this.page.locator('select[name="timezone"]').selectOption('Asia/Bangkok')
+
+		await this.page.getByText(/Save Settings/i).click()
 	}
 
 	private computeMonthParam(month?: Month, year?: number) {
