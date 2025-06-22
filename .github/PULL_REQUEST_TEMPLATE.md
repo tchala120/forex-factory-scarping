@@ -20,9 +20,9 @@ Related Link(s):
 ### 4. Operations impact
 
 > ⭐️ _Don't forget to remove this explanation_ ⭐️
-> ■ = selected, □ = unselected (you can select multiple choices)
+> - [x] = selected, - [ ] = unselected (you can select multiple choices)
 
-- ■ No impact.
-- □ This PR introduces new dependencies (added to the package.json).
-- □ This PR requires updates to the documentation.
-- □ This PR may impact current system deployments, configurations, or data.
+- [x] No impact.
+- [ ] This PR introduces new dependencies (added to the package.json).
+- [ ] This PR requires updates to the documentation.
+- [ ] This PR may impact current system deployments, configurations, or data.
