@@ -1,0 +1,183 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Pull Request Workflow Rules
+
+## Overview
+Always create Pull Requests instead of pushing directly to main branch. Use GitHub CLI (gh) to automate PR creation process.
+
+## Step-by-Step PR Creation Workflow
+
+### Step 1: Create Feature Branch
+```bash
+# Create and switch to new feature branch with descriptive name
+git checkout -b feature/descriptive-name-of-changes
+
+# Branch naming conventions:
+# - feature/add-new-functionality
+# - fix/resolve-specific-issue  
+# - chore/update-dependencies
+# - docs/improve-documentation
+```
+
+### Step 2: Make Commits (Follow commit-rules.mdc)
+```bash
+# Make changes and commit following conventional commit format
+git add [file]
+git commit -m "feat(scope): description of changes"
+
+# Continue making commits as needed
+# Each commit should follow conventional commit pattern
+```
+
+### Step 3: Push Feature Branch
+```bash
+# Push the feature branch to GitHub
+git push -u origin feature/descriptive-name-of-changes
+
+# The -u flag sets up tracking for the branch
+```
+
+### Step 4: Create Pull Request
+```bash
+# Create PR with detailed title and body
+gh pr create \
+  --title "feat: descriptive title of the changes" \
+  --body "## Summary
+
+Detailed description of what this PR accomplishes:
+
+### 🚀 Features Added
+- List new features or enhancements
+
+### 🐛 Bug Fixes  
+- List any bugs fixed
+
+### 📦 Dependencies
+- List any new dependencies added
+
+### ⚙️ Configuration Updates
+- List config changes made
+
+### 🔧 Technical Improvements
+- List technical improvements
+
+### 📋 Commits Included
+- List all commits with their conventional commit messages
+
+### 🧪 Testing
+- Describe testing done or needed
+
+" \
+  --base main
+```
+
+### Step 5: Provide PR URL to User
+```bash
+# The gh pr create command will output a URL like:
+# https://github.com/username/repo/pull/X
+# Always share this URL with the user for review
+```
+
+## PR Title Conventions
+- Start with conventional commit prefix: `feat:`, `fix:`, `chore:`, etc.
+- Be descriptive and specific about what the PR accomplishes
+- Examples:
+  - `feat: enhance forex factory scraping with improved fixtures and date handling`
+  - `fix: resolve timezone selection issue in forex factory navigation`
+  - `chore: update dependencies and improve build configuration`
+
+## PR Body Template
+Always include these sections in PR body:
+
+```markdown
+## Summary
+Brief overview of what this PR accomplishes
+
+### 🚀 Features Added
+- List new features
+
+### 🐛 Bug Fixes
+- List fixes
+
+### 📦 Dependencies
+- List dependency changes
+
+### ⚙️ Configuration Updates  
+- List config changes
+
+### 🔧 Technical Improvements
+- List technical improvements
+
+### 📋 Commits Included
+- List all commits in this PR
+
+### 🧪 Testing
+- Testing information
+```
+
+## Post-PR Creation
+1. Share the PR URL with the user
+2. Switch back to main branch: `git checkout main`
+3. Wait for user to review and merge
+4. After merge, pull latest changes: `git pull origin main`
+5. Clean up feature branch: `git branch -d feature/branch-name`
+
+## Important Notes
+- NEVER push directly to main branch
+- Always create PRs for any changes, no matter how small
+- Each PR should represent a logical set of related changes
+- Follow conventional commit format for both commits and PR titles
+- Provide detailed PR descriptions to help with code review
+
+## Branch Cleanup After Merge
+```bash
+# After PR is merged, clean up local branches
+git checkout main
+git pull origin main
+git branch -d feature/branch-name-that-was-merged
+```
+
+## Example Complete Workflow
+```bash
+# 1. Create feature branch
+git checkout -b feature/add-calendar-data-export
+
+# 2. Make changes and commits
+git add src/utils/export.ts
+git commit -m "feat(export): add calendar data export functionality"
+
+git add src/tests/export.spec.ts  
+git commit -m "test(export): add tests for calendar data export"
+
+# 3. Push branch
+git push -u origin feature/add-calendar-data-export
+
+# 4. Create PR
+gh pr create \
+  --title "feat: add calendar data export functionality" \
+  --body "## Summary
+Add ability to export forex factory calendar data to various formats.
+
+### 🚀 Features Added
+- Calendar data export to JSON, CSV formats
+- Configurable date range filtering
+- Timezone-aware data export
+
+### 📋 Commits Included
+- feat(export): add calendar data export functionality
+- test(export): add tests for calendar data export
+
+### 🧪 Testing
+- Unit tests added for export functionality
+- Manual testing with sample calendar data
+" \
+  --base main
+
+# 5. Share PR URL with user and switch back to main
+git checkout main
+```
+
+This workflow ensures clean git history, proper code review process, and maintainable codebase.
