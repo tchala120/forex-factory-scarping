@@ -4,7 +4,7 @@ Explain why this PR is required.
 
 Related Link(s):
 
-- Url for related link.
+- URL for related link.
 - Another link...
 
 ### 2. Description of change
