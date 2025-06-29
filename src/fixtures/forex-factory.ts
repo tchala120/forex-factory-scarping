@@ -15,9 +15,11 @@ export class ForexFactory {
 	}
 
 	async changeTimezone() {
+		const timezone = process.env.TIMEZONE || 'Asia/Bangkok'
+
 		await this.page.goto(`/timezone`)
 
-		await this.page.locator('select[name="timezone"]').selectOption('Asia/Bangkok')
+		await this.page.locator('select[name="timezone"]').selectOption(timezone)
 
 		await this.page.getByText(/Save Settings/i).click()
 	}
